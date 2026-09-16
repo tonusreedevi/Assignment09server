@@ -227,7 +227,25 @@ app.get("/comment/user/:userId", async (req, res) => {
   }
 })
 
+//my idea code 
+app.get("/idea/user/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
 
+    const ideas = await ideaCollection
+      .find({ userId: userId })
+      .sort({ _id: -1 })
+      .toArray();
+
+    res.status(200).json(ideas);
+  } catch (error) {
+    console.error("Get user's ideas error:", error);
+
+    res.status(500).json({
+      message: "Failed to get user's ideas",
+    });
+  }
+});
 //view details er api
 
 
