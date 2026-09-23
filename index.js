@@ -92,17 +92,14 @@ app.put("/comment/:id", async (req, res) => {
     }
 
     // Check ownership
-  
+    if (existingComment.userId !== userId) {
+      return res.status(403).json({
+        message: "You can only edit your own comment",
+      });
+    }
+
     // Update comment
-    const result = await commentCollection.updateOne(
-      { _id: new ObjectId(id) },
-      {
-        $set: {
-          comment: comment,
-          updatedAt: new Date(),
-        },
-      }
-    );
+
 
     res.status(200).json({
       message: "Comment updated successfully",
