@@ -48,19 +48,27 @@ async function run() {
      //card e post korar api
 
 
+app.get("/comment/:ideaId", async (req, res) => {
+  try {
+    const { ideaId } = req.params;
+
+    const comments = await commentCollection
+      .find({ ideaId: ideaId })
+      .sort({ createdAt: -1 })
+      .toArray();
+
+    res.status(200).json(comments);
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: "Failed to get comments",
+    });
+  }
+});
 
 
 // comment edit API
-app.put("/comment/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { comment, userId } = req.body;
-
-    if (!ObjectId.isValid(id)) {
-      return res.status(400).json({
-        message: "Invalid comment ID",
-      });
-    }
 
     // Find the comment
     const existingComment = await commentCollection.findOne({
