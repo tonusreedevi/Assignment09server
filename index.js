@@ -48,24 +48,6 @@ async function run() {
      //card e post korar api
 
 
-app.get("/comment/:ideaId", async (req, res) => {
-  try {
-    const { ideaId } = req.params;
-
-    const comments = await commentCollection
-      .find({ ideaId: ideaId })
-      .sort({ createdAt: -1 })
-      .toArray();
-
-    res.status(200).json(comments);
-  } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-      message: "Failed to get comments",
-    });
-  }
-});
 
 
 // comment edit API
@@ -265,3 +247,19 @@ app.get("/idea/:id", async (req, res) => {
     res.json(result);
 });
 
+    // Test route
+    app.get("/", (req, res) => {
+      res.send("IdeaVault Server is Running!");
+    });
+
+    // Start server
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+
+  } catch (error) {
+    console.error("MongoDB connection failed:", error);
+  }
+}
+
+run();
