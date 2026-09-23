@@ -69,6 +69,16 @@ app.get("/comment/:ideaId", async (req, res) => {
 
 
 // comment edit API
+app.put("/comment/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { comment, userId } = req.body;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({
+        message: "Invalid comment ID",
+      });
+    }
 
     // Find the comment
     const existingComment = await commentCollection.findOne({
@@ -82,12 +92,7 @@ app.get("/comment/:ideaId", async (req, res) => {
     }
 
     // Check ownership
-    if (existingComment.userId !== userId) {
-      return res.status(403).json({
-        message: "You can only edit your own comment",
-      });
-    }
-
+  
     // Update comment
     const result = await commentCollection.updateOne(
       { _id: new ObjectId(id) },
