@@ -265,19 +265,3 @@ app.get("/idea/:id", async (req, res) => {
     res.json(result);
 });
 
-    // Test route
-    app.get("/", (req, res) => {
-      res.send("IdeaVault Server is Running!");
-    });
-
-    // Start server
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-
-  } catch (error) {
-    console.error("MongoDB connection failed:", error);
-  }
-}
-
-run();
